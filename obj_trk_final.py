@@ -44,16 +44,22 @@ def drawBox(img,bbox):
     x,y,w,h = int(bbox[0]),int(bbox[1]),int(bbox[2]),int(bbox[3])
     cv2.rectangle(img,(x,y),((x+w),(y+h)),(255,0,255),3,1)
     cv2.putText(img,"Rastreando",(75,90),cv2.FONT_HERSHEY_SIMPLEX,0.7,(0,255,0),2)
-
-
-
-def drawBox(img,bbox):
-    #escreva o código desta função aqui
-    pass
-
-
+   
 while True:
-   #escreva o código dentro do loop aqui
-   pass
+    check,img = video.read()
+    success,bbox = tracker.update(img)
+    
+    
+    if success: 
+        drawBox(img,bbox)
+    else:
+        cv2.putText(img,"Errou",(75,90))
+        
+    goal_track(img,bbox)
+    cv2.imshow("TELA",img)
+    key = cv2.waitKey(25)
+    if key == 32: 
+        break
+
 video.release()
 cv2.destroyALLwindows() 
